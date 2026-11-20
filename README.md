@@ -1,58 +1,43 @@
-# Vice Cover Studio — GTA 6 Cover Art Maker
+[![gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![rank](https://make.fun/badge/gta6-cover-art-01/HeyRdzy/gta6-cover-art-01/rank.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![reward](https://make.fun/badge/gta6-cover-art-01/HeyRdzy/gta6-cover-art-01/reward.svg)](https://make.fun/bounty/gta6-cover-art-01)
 
-[![GTA 6 Cover Art Maker — make.fun bounty](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01)
-[![GTA 6 Cover Art Maker rank on make.fun](https://make.fun/badge/gta6-cover-art-01/HeyRdzy/gta6-cover-art-01/rank.svg)](https://make.fun/bounty/gta6-cover-art-01)
-[![GTA 6 Cover Art Maker reward on make.fun](https://make.fun/badge/gta6-cover-art-01/HeyRdzy/gta6-cover-art-01/reward.svg)](https://make.fun/bounty/gta6-cover-art-01)
+# Neon Coast Cover Studio
 
-Vice Cover Studio turns your own photos and a caption into GTA-style cover
-art: a multi-panel poster with bold caption lettering and a Vice City sunset
-or neon colour grade, exported as a PNG to share. Everything runs offline in
-your browser — photos are read on your machine and never uploaded.
+A GTA-style cover art maker that runs entirely offline in the browser. Load your own photos (or the two free samples), arrange them in multi-panel poster layouts, pick a Vice City sunset or neon colour grade, write a bold caption, and export a PNG ready to post.
 
-## How it works
+## What it does
 
-1. **Add photos** — pick images from your machine, or load the two free
-   sample photos (Boulevard, Pier) to try it out.
-2. **Pick a layout** — Showdown (one big panel + two stacked), Four corners
-   (2×2 grid), Triple strip (three vertical panels), or Hero shot
-   (one full-bleed photo).
-3. **Arrange each panel** — click a panel to select it, drag inside it to pan
-   the photo, use the zoom slider, or cycle which photo fills it. Click a
-   thumbnail to put that photo in the selected panel.
-4. **Caption & grade** — type the caption, set its size, top or bottom
-   position, and colour; pick a grade: Sunset, Neon nights, Noir, or Clean.
-5. **Export PNG** — 1080×1080, 1080×1350, or 1920×1080, one click.
+- **Any photo** — load photos from your machine (file picker or drag-and-drop) or the two free sample photos. Photos are read locally and never uploaded.
+- **Multi-panel posters** — four layouts: Hero Split (one big moment, two side stories), Four Corners, Triple Strip, and Spotlight (one photo, full bleed). Fill several panels with one photo or several; click a thumbnail, then a panel, to place a photo.
+- **Crop and position** — click a panel to select it, drag it to pan the photo inside, and zoom from 1× to 2.5×.
+- **Bold caption lettering** — editable text, size, position (top / middle / bottom) and underline colour; the lettering fits itself to one line and its gradient matches the colour grade.
+- **Colour grades** — Sunset (warm Vice City dusk), Neon Nights (magenta and cyan glow), Noir, and Clean.
+- **Fast export** — one click exports a PNG at 1080 × 1080, 1080 × 1350 or 1920 × 1080.
 
-The live preview is exactly what the export draws: the same geometry,
-grades, caption lettering and grain go into the PNG.
+## Originality
+
+Everything here is original: no Rockstar Games logo, wordmark, official artwork, character or font file. All lettering is drawn on canvas with system font stacks, and the two sample photos were made with an image model for make.fun and are free to use.
 
 ## Run it
-
-Serve `app/` with any static server and open `index.html`, for example:
 
 ```sh
 node serve.ts
 ```
 
-then open the address it prints. No build step, no network at runtime: every
-script, style and sample image is a file under `app/`.
+Then open http://localhost:8080. Or serve `app/` with any static file server — the app makes no network requests.
 
-## Originality
+## Hand it in
 
-All artwork, lettering and code in this entry are original. It uses no
-Rockstar Games logo, wordmark, official artwork, character, or font file from
-any game. The caption is drawn with generic system font stacks
-(`Arial Black`, Impact, sans-serif) — no font file is shipped. The two
-sample photos under `app/samples/` were made with an image model for make.fun
-and are free to use.
+```sh
+mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+```
 
-## Files
+That copies `app/` and `screenshots/` to `out/` and writes `out/dossier.json`.
 
-- `app/index.html` — the editor page
-- `app/style.css` — dark neon editor styling
-- `app/src/app.js` — editor state, DOM preview, drag-to-pan, upload, export
-- `app/src/render.js` — panel layouts, colour grades, cover geometry, canvas export
-- `app/samples/` — the two free sample photos
-- `main.ts` — hands the app in: copies `app/` and `screenshots/` to the
-  output directory and writes `dossier.json` with `buildDossier`
-- `screenshots/` — 3–4 screenshots taken while building this entry
+## Screenshots
+
+- `1-cover.jpg` — exported wide cover (Hero Split + Sunset, 1920 × 1080)
+- `2-editor.jpg` — the editor with photos loaded (Hero Split + Sunset)
+- `3-cover-square.jpg` — exported square cover (Four Corners + Neon Nights, 1080 × 1080)
+- `4-editor-neon.jpg` — the editor (Triple Strip + Neon Nights)
