@@ -3,21 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
-<link rel="stylesheet" href="./style.css">
+<title>Vice Cover Studio — GTA-style cover art maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">VC</span>
+    <div class="brand-text">
+      <h1>Vice Cover Studio</h1>
+      <p>Turn your photos into a Vice City sunset poster — no upload, no account.</p>
+    </div>
+  </div>
+  <ol class="steps" id="steps">
+    <li data-step="photos"><span class="step-num">1</span><span class="step-label">Add photos</span></li>
+    <li data-step="layout"><span class="step-num">2</span><span class="step-label">Pick a layout</span></li>
+    <li data-step="caption"><span class="step-num">3</span><span class="step-label">Caption &amp; grade</span></li>
+    <li data-step="export"><span class="step-num">4</span><span class="step-label">Export PNG</span></li>
+  </ol>
+</header>
+
+<main class="workspace">
+  <section class="stage-column">
+    <div class="stage" id="stage" aria-label="Cover preview"></div>
+    <div class="stage-foot">
+      <span id="sizeLabel">1080 × 1080</span>
+      <span id="photoCount">No photos yet — load a sample or your own below.</span>
+    </div>
+    <p class="hint">Click a panel to select it, then drag inside it to reposition the photo. Everything runs on your machine — photos are never uploaded.</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <aside class="controls">
+    <section class="card" aria-label="Photos">
+      <h2>Photos</h2>
+      <label class="upload-btn" for="photoInput">Add your photos…</label>
+      <input id="photoInput" type="file" accept="image/*" multiple hidden>
+      <div class="sample-row">
+        <button type="button" class="sample-btn" data-sample="samples/boulevard.jpg">Sample: Boulevard</button>
+        <button type="button" class="sample-btn" data-sample="samples/pier.jpg">Sample: Pier</button>
+      </div>
+      <div class="thumbs" id="thumbs" aria-label="Loaded photos"></div>
+      <p class="micro">Click a thumbnail to put that photo in the selected panel.</p>
+    </section>
+
+    <section class="card" aria-label="Layout">
+      <h2>Layout</h2>
+      <div class="choice-row" id="layoutRow" role="group" aria-label="Panel layout"></div>
+    </section>
+
+    <section class="card" aria-label="Selected panel">
+      <h2>Selected panel</h2>
+      <div class="row">
+        <button type="button" id="cyclePhoto" class="btn">Next photo in this panel</button>
+      </div>
+      <label class="slider-label" for="zoomRange">Zoom <span id="zoomValue">1.00×</span></label>
+      <input id="zoomRange" type="range" min="1" max="2.5" step="0.01" value="1">
+      <p class="micro">Drag inside the panel to pan the photo.</p>
+    </section>
+
+    <section class="card" aria-label="Caption">
+      <h2>Caption</h2>
+      <input id="captionText" type="text" maxlength="28" value="SUNSET DRIVE" aria-label="Caption text">
+      <div class="row">
+        <label class="slider-label" for="captionSize">Size <span id="captionSizeValue">120</span></label>
+        <input id="captionSize" type="range" min="64" max="220" step="2" value="120">
+      </div>
+      <div class="choice-row" id="captionPosRow" role="group" aria-label="Caption position">
+        <button type="button" data-pos="bottom" class="choice active">Bottom</button>
+        <button type="button" data-pos="top" class="choice">Top</button>
+      </div>
+      <div class="choice-row" id="captionColorRow" role="group" aria-label="Caption colour"></div>
+    </section>
+
+    <section class="card" aria-label="Colour grade">
+      <h2>Colour grade</h2>
+      <div class="choice-row" id="gradeRow" role="group" aria-label="Colour grade"></div>
+    </section>
+
+    <section class="card" aria-label="Export">
+      <h2>Export size</h2>
+      <div class="choice-row" id="sizeRow" role="group" aria-label="Export size"></div>
+      <button type="button" id="exportBtn" class="export-btn">Export PNG</button>
+      <p class="micro" id="exportStatus">Ready when you are.</p>
+    </section>
+  </aside>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<script type="module" src="src/app.js"></script>
 </body>
 </html>

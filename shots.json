@@ -1,5 +1,1 @@
-[
-  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
-]
+{"shots":[{"caption":"Cover the app exported: Showdown layout, Sunset grade, 1920x1080","file":"1-cover.jpg"},{"caption":"The editor in the browser with a sample photo loaded, Showdown layout","file":"2-editor.jpg"},{"caption":"Cover the app exported: Four corners layout, Neon nights grade, 1080x1080","file":"3-cover-square.jpg"},{"caption":"The editor with the Triple strip layout and Neon nights grade","file":"4-editor-neon.jpg"}]}
