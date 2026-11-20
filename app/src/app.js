@@ -12,6 +12,7 @@ import {
   gradeById,
   panelRect,
   coverTransform,
+  fitCaptionFontSize,
   exportCover,
 } from './render.js';
 
@@ -52,9 +53,10 @@ function photoName(photo) {
 
 function addPhoto(img, name) {
   state.photos.push({ img, name });
+  // Spread the loaded photos across the panels, so a second photo fills
+  // panels instead of hiding behind the first one.
   state.panels.forEach((panel, i) => {
-    if (state.photos.length === 1) panel.photo = 0;
-    else if (panel.photo >= state.photos.length) panel.photo = i % state.photos.length;
+    panel.photo = i % state.photos.length;
   });
   renderThumbs();
   renderStage();
@@ -168,8 +170,10 @@ function renderStage() {
   const caption = document.createElement('div');
   caption.className = `caption-layer ${state.caption.position}`;
   const color = CAPTION_COLORS.find((c) => c.id === state.caption.color) ?? CAPTION_COLORS[0];
-  caption.textContent = (state.caption.text || '').trim() || 'SUNSET DRIVE';
-  caption.style.fontSize = `${state.caption.size * scale}px`;
+  const captionText = (state.caption.text || '').trim() || 'SUNSET DRIVE';
+  caption.textContent = captionText;
+  const fittedSize = fitCaptionFontSize(captionText, state.caption.size * scale, stageW * 0.92);
+  caption.style.fontSize = `${fittedSize}px`;
   caption.style.background = `linear-gradient(180deg, ${color.stops[0]}, ${color.stops[1]})`;
   caption.style.webkitBackgroundClip = 'text';
   caption.style.backgroundClip = 'text';
@@ -181,7 +185,7 @@ function renderStage() {
   const tag = document.createElement('div');
   tag.className = 'tag-layer';
   tag.textContent = 'Vice Cover Studio';
-  tag.style.left = '3%';
+  tag.style.right = '3%';
   tag.style.top = state.caption.position === 'top' ? 'auto' : '3%';
   tag.style.bottom = state.caption.position === 'top' ? '3%' : 'auto';
   stage.appendChild(tag);

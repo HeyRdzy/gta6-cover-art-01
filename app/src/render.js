@@ -94,6 +94,22 @@ export function captionColorById(id) {
   return CAPTION_COLORS.find((c) => c.id === id) ?? CAPTION_COLORS[0];
 }
 
+const CAPTION_FONT = (px) =>
+  `italic 900 ${px}px "Arial Black", "Archivo Black", Impact, "Helvetica Neue", sans-serif`;
+
+/** Shrink a caption until it fits one line inside maxWidth (shared by preview and export). */
+export function fitCaptionFontSize(text, sizePx, maxWidth) {
+  const measurer = fitCaptionFontSize.canvas ?? (fitCaptionFontSize.canvas = document.createElement('canvas'));
+  const ctx = measurer.getContext('2d');
+  let size = sizePx;
+  ctx.font = CAPTION_FONT(size);
+  while (ctx.measureText(text).width > maxWidth && size > 24) {
+    size -= 4;
+    ctx.font = CAPTION_FONT(size);
+  }
+  return size;
+}
+
 /** A slot's pixel rectangle inside a W×H cover. */
 export function panelRect(slot, W, H) {
   return { x: slot[0] * W, y: slot[1] * H, w: slot[2] * W, h: slot[3] * H };
@@ -222,9 +238,9 @@ function drawGrain(ctx, W, H) {
 function drawCaption(ctx, W, H, caption) {
   const text = (caption.text || '').trim() || 'SUNSET DRIVE';
   const scale = W / 1080;
-  let size = caption.size * scale;
+  const size = fitCaptionFontSize(text, caption.size * scale, W * 0.92);
   const color = captionColorById(caption.color);
-  const fontFor = (px) => `italic 900 ${px}px "Arial Black", "Archivo Black", Impact, "Helvetica Neue", sans-serif`;
+  const fontFor = (px) => CAPTION_FONT(px);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
   try {
@@ -233,10 +249,6 @@ function drawCaption(ctx, W, H, caption) {
     /* letterSpacing is Chrome-only; the caption still draws without it. */
   }
   ctx.font = fontFor(size);
-  while (ctx.measureText(text).width > W * 0.92 && size > 24) {
-    size -= 4;
-    ctx.font = fontFor(size);
-  }
   const bandH = size * 1.7;
   const bandY = caption.position === 'top' ? 0 : H - bandH;
   const band = ctx.createLinearGradient(0, bandY, 0, bandY + bandH);
@@ -275,7 +287,7 @@ function drawCaption(ctx, W, H, caption) {
 function drawStudioTag(ctx, W, H, caption) {
   const size = Math.max(14, W * 0.016);
   ctx.font = `800 ${size}px "Segoe UI", Arial, sans-serif`;
-  ctx.textAlign = 'left';
+  ctx.textAlign = 'right';
   ctx.textBaseline = 'alphabetic';
   try {
     ctx.letterSpacing = '3px';
@@ -286,7 +298,7 @@ function drawStudioTag(ctx, W, H, caption) {
   ctx.shadowColor = 'rgba(0,0,0,0.8)';
   ctx.shadowBlur = 6;
   const y = caption.position === 'top' ? H - size * 1.4 : size * 2.1;
-  ctx.fillText('VICE COVER STUDIO', W * 0.03, y);
+  ctx.fillText('VICE COVER STUDIO', W * 0.97, y);
   ctx.shadowColor = 'transparent';
   ctx.shadowBlur = 0;
   try {
